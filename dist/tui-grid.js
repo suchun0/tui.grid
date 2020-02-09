@@ -1,6 +1,6 @@
 /*!
- * bundle created at "Fri Sep 06 2019 11:19:30 GMT+0900 (GMT+09:00)"
- * version: 3.9.2
+ * bundle created at "Sun Feb 09 2020 21:53:40 GMT+0900 (KST)"
+ * version: 3.9.3-alpha.1
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -18411,7 +18411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this._executeCustomEventHandler(event, param.address);
 
-	        if (action && !event.shiftKey) {
+	        if (action) {
 	            action.call(this, param);
 	            event.preventDefault();
 	        }

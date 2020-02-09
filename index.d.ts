@@ -1,4 +1,4 @@
-// Type definitions for TOAST UI Grid v3.9.2
+// Type definitions for TOAST UI Grid v3.9.3-alpha.1
 // TypeScript Version: 3.2.2
 
 /// <reference types="jquery" />

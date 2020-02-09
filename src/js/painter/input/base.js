@@ -150,7 +150,7 @@ var InputPainter = snippet.defineClass(Painter, /** @lends module:painter/input/
 
         this._executeCustomEventHandler(event, param.address);
 
-        if (action && !event.shiftKey) {
+        if (action) {
             action.call(this, param);
             event.preventDefault();
         }
