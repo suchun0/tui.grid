@@ -107,7 +107,6 @@ var FocusLayer = View.extend(/** @lends module:view/focusLayer.prototype */{
         var pos = this.coordConverterModel.getCellPosition(rowKey, columnName);
         var width = pos.right - pos.left;
         var height = pos.bottom - pos.top;
-        console.log('_refreshBorderLayout', rowKey, columnName, pos);
 
         this.borderEl.$left.css({
             top: pos.top,

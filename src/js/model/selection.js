@@ -302,8 +302,7 @@ var Selection = Model.extend(/** @lends module:model/selection.prototype */{
      * @private
      */
     _onMouseDownBody: function(gridEvent) {
-        var address = this.coordConverterModel.getIndexFromMousePosition(
-            gridEvent.nativeEvent, gridEvent.pageX, gridEvent.pageY, true);
+        var address = this.coordConverterModel.getIndexFromMousePosition(gridEvent.pageX, gridEvent.pageY, true);
         var selType = this._getTypeByColumnIndex(address.column);
         var rowIndex, columnIndex;
 
@@ -330,8 +329,7 @@ var Selection = Model.extend(/** @lends module:model/selection.prototype */{
      * @private
      */
     _onDragMoveBody: function(gridEvent) {
-        var address = this.coordConverterModel.getIndexFromMousePosition(
-            gridEvent.nativeEvent, gridEvent.pageX, gridEvent.pageY);
+        var address = this.coordConverterModel.getIndexFromMousePosition(gridEvent.pageX, gridEvent.pageY);
 
         this.update(address.row, address.column);
         this._setScrolling(gridEvent.pageX, gridEvent.pageY);
