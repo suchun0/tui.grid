@@ -173,8 +173,7 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
         _.each(rowHeights, function(height, index) {
             if (height) {
                 prevHeight = index ? rowHeights[prevIdx] : rowHeights[0];
-                rowOffset = index
-                    ? (prevHeight + rowOffsets[prevIdx] + (CELL_BORDER_WIDTH * window.devicePixelRatio)) : 0;
+                rowOffset = index ? (prevHeight + rowOffsets[prevIdx] + CELL_BORDER_WIDTH) : 0;
                 prevIdx = index;
             } else {
                 rowOffset = -1;
@@ -182,8 +181,6 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
 
             rowOffsets[index] = rowOffset;
         });
-
-        console.log('_resetOffsets', rowOffsets);
 
         this.rowOffsets = rowOffsets;
     },
