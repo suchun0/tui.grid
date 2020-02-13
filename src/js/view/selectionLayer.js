@@ -92,6 +92,8 @@ var SelectionLayer = View.extend(/** @lends module:view/selectionLayer.prototype
         var top = coordRowModel.getOffsetAt(rowRange[0]);
         var bottom = coordRowModel.getOffsetAt(rowRange[1]) + coordRowModel.getHeightAt(rowRange[1]);
 
+        console.log('_getVerticalStyles', rowRange);
+
         return {
             top: top + 'px',
             height: (bottom - top) + 'px'

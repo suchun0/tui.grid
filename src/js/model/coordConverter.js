@@ -22,6 +22,7 @@ var CELL_BORDER_WIDTH = dimensionConstMap.CELL_BORDER_WIDTH;
  */
 var CoordConverter = Model.extend(/** @lends module:model/coordConverter.prototype */{
     initialize: function(attrs, options) {
+        this.domState = options.domState;
         this.dataModel = options.dataModel;
         this.columnModel = options.columnModel;
         this.focusModel = options.focusModel;
@@ -35,14 +36,25 @@ var CoordConverter = Model.extend(/** @lends module:model/coordConverter.prototy
 
     /**
      * Get cell index from mouse position
+     * @param {jQuery} $evt - Mouse X-position based on page
      * @param {Number} pageX - Mouse X-position based on page
      * @param {Number} pageY - Mouse Y-position based on page
      * @param {boolean} [withMeta] - Whether the meta columns go with this calculation
      * @returns {{row: number, column: number}} Cell index
      */
-    getIndexFromMousePosition: function(pageX, pageY, withMeta) {
+    getIndexFromMousePosition: function($evt, pageX, pageY, withMeta) {
         var position = this.dimensionModel.getPositionFromBodyArea(pageX, pageY);
         var posWithScroll = this._getScrolledPosition(position);
+        var $target = $($evt.target);
+        var $cell = $target.parents('.tui-grid-cell');
+        var columName = $cell.attr('data-column-name');
+        var rowKey = $cell.attr('data-row-key');
+        if (columName && rowKey) {
+            return {
+                row: parseInt(rowKey, 10),
+                column: this.columnModel.indexOfColumnName(columName, true)
+            };
+        }
 
         return {
             row: this.coordRowModel.indexOf(posWithScroll.y),
@@ -143,6 +155,20 @@ var CoordConverter = Model.extend(/** @lends module:model/coordConverter.prototy
      */
     getCellPosition: function(rowKey, columnName) {
         var rowSpanCount, vPos, hPos;
+        var rectContainer, rect;
+        var el = this.domState.getElement(rowKey, columnName)[0];
+
+        if (el) {
+            rectContainer = this.domState.getContainerElement()[0].getBoundingClientRect();
+            rect = el.getBoundingClientRect();
+
+            return {
+                top: rect.top - rectContainer.top,
+                left: rect.left - rectContainer.left,
+                right: rect.right - rectContainer.left,
+                bottom: rect.bottom - rectContainer.top
+            };
+        }
 
         rowKey = this.dataModel.getMainRowKey(rowKey, columnName);
 

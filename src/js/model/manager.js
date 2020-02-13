@@ -76,7 +76,7 @@ var ModelManager = snippet.defineClass(/** @lends module:modelManager.prototype 
         this.focusModel = this._createFocusModel(options, domState, domEventBus);
         this.coordColumnModel = this._createCoordColumnModel(options.columnOptions, domEventBus);
         this.renderModel = this._createRenderModel(options);
-        this.coordConverterModel = this._createCoordConverterModel();
+        this.coordConverterModel = this._createCoordConverterModel(domState);
         this.selectionModel = this._createSelectionModel(options, domEventBus);
         this.summaryModel = this._createSummaryModel(options.summary);
         this.clipboardModel = this._createClipboardModel(options, domEventBus);
@@ -216,11 +216,13 @@ var ModelManager = snippet.defineClass(/** @lends module:modelManager.prototype 
 
     /**
      * Creates an instance of coordConvert model and returns it
+     * @param  {module:domState} domState - DomState instance
      * @returns {module:model/coordConverterModel}
      * @private
      */
-    _createCoordConverterModel: function() {
+    _createCoordConverterModel: function(domState) {
         return new CoordConverterModel(null, {
+            domState: domState,
             columnModel: this.columnModel,
             dataModel: this.dataModel,
             dimensionModel: this.dimensionModel,
