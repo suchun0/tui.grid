@@ -23,11 +23,29 @@
   <script type="text/javascript" src="./data/basic-dummy.js"></script>
   <script type="text/javascript" class="code-js">
 
+  const editedKeys = new Set();
+
+  function addAndPrint(ev) {
+      const {
+          rowKey,
+          value,
+      } = ev;
+      editedKeys.add(rowKey);
+      for (const key of editedKeys) {
+          const row = grid.getRowAt(key);
+          console.log(`${key}: ${row.artist}`)
+      }
+  }
+
   var grid = new tui.Grid({
       el: $('#grid'),
       scrollX: false,
       scrollY: false,
       columns: [
+          {
+              title: 'Index',
+              name: 'index',
+          },
           {
               title: 'Name',
               name: 'name',
@@ -46,15 +64,24 @@
               title: 'Artist',
               name: 'artist',
               onBeforeChange: function(ev){
-                  console.log('Before change:' + ev);
-                  ev.stop();
+                  const {
+                      rowKey,
+                      value,
+                  } = ev;
+                  console.log('Before change:', { rowKey, value });
+                //   ev.stop();
               },
               onAfterChange: function(ev){
-                  console.log('After change:' + ev);
+                  const {
+                      rowKey,
+                      value,
+                  } = ev;
+                  console.log('After change:', { rowKey, value });
+                  addAndPrint(ev)
               },
               editOptions: {
                   type: 'text',
-                  maxLength: 10,
+                //   maxLength: 10,
                   useViewMode: false
               }
           },
@@ -128,6 +155,12 @@
       ]
   });
 
+  for (let i = 0; i < 2; i += 1) {
+      gridData = gridData.concat(JSON.parse(JSON.stringify(gridData)));
+  }
+  gridData = gridData.map((d, index) => ({ ...d, index }))
+
+  console.log('setData', gridData.length)
   grid.setData(gridData);
   </script>
 </html>

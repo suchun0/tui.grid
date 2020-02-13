@@ -209,11 +209,16 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
     /**
      * Initialize the values of rowHeights and rowOffsets
      * @param {Array.<number>} rowHeights - array of row height
+     * @param {Array.<number>} rowOffsets - array of row height
      * @private
      */
-    _reset: function(rowHeights) {
+    _reset: function(rowHeights, rowOffsets) {
         this.rowHeights = rowHeights;
-        this._resetOffsets();
+        if (this.rowOffsets.length && rowOffsets) {
+            this.rowOffsets = rowOffsets;
+        } else {
+            this._resetOffsets();
+        }
         this._setTotalRowHeight();
 
         this.trigger('reset');
@@ -223,7 +228,8 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
      * Refresh coordinate data with real DOM height of cells
      */
     syncWithDom: function() {
-        var domRowHeights, dataRowHeights, rowHeights;
+        var heightsAndOffests;
+        var domRowHeights, domRowOffsets, dataRowHeights, rowHeights;
         var domHeightIdx = 0;
         var i, len;
 
@@ -231,7 +237,9 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
             return;
         }
 
-        domRowHeights = this.domState.getRowHeights();
+        heightsAndOffests = this.domState.getRowHeightsAndOffsets();
+        domRowHeights = heightsAndOffests.heights;
+        domRowOffsets = heightsAndOffests.offsets;
         dataRowHeights = this._getHeightFromData();
         rowHeights = [];
 
@@ -244,7 +252,7 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
             }
         }
 
-        this._reset(rowHeights);
+        this._reset(rowHeights, domRowOffsets);
     },
 
     /**

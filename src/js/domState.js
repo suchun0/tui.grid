@@ -41,10 +41,18 @@ var DomState = snippet.defineClass(/** @lends module:domState.prototype */{
      */
     _getMaxCellHeight: function($row) {
         var heights = $row.find('.' + classNameConst.CELL_CONTENT).map(function() {
-            return this.scrollHeight;
+            return this.getBoundingClientRect().height;
         }).get();
 
         return _.max(heights);
+    },
+
+    /**
+     * getContainerElement
+     * @returns {jQuery} Cell(TD) element
+     */
+    getContainerElement: function() {
+        return this.$el.find('.' + classNameConst.BODY_CONTAINER);
     },
 
     /**
@@ -62,20 +70,28 @@ var DomState = snippet.defineClass(/** @lends module:domState.prototype */{
      * Returns an array of heights of all rows
      * @returns {Array.<number>}
      */
-    getRowHeights: function() {
+    getRowHeightsAndOffsets: function() {
         var $lsideRows = this._getBodyTableRows(classNameConst.LSIDE_AREA);
         var $rsideRows = this._getBodyTableRows(classNameConst.RSIDE_AREA);
         var lsideHeight, rsideHeight;
         var heights = [];
+        var offsets = [];
         var i, len;
+        var containerTop = this.getContainerElement()[0].getBoundingClientRect().top;
 
         for (i = 0, len = $lsideRows.length; i < len; i += 1) {
             lsideHeight = this._getMaxCellHeight($lsideRows.eq(i));
             rsideHeight = this._getMaxCellHeight($rsideRows.eq(i));
             heights[i] = Math.max(lsideHeight, rsideHeight) + 1;
+            offsets[i] = Math.max(
+                $lsideRows[i].getBoundingClientRect().top,
+                $rsideRows[i].getBoundingClientRect().top) - containerTop;
         }
 
-        return heights;
+        return {
+            heights: heights,
+            offsets: offsets
+        };
     },
 
     /**
