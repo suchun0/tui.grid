@@ -214,7 +214,6 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
      */
     _reset: function(rowHeights, rowOffsets) {
         this.rowHeights = rowHeights;
-        console.log('_reset', rowOffsets);
         if (this.rowOffsets.length && rowOffsets) {
             this.rowOffsets = rowOffsets;
         } else {
@@ -252,7 +251,6 @@ var CoordRow = Model.extend(/** @lends module:model/coordRow.prototype */{
                 rowHeights[i] = 0;
             }
         }
-        console.log('syncWithDom', rowHeights);
 
         this._reset(rowHeights, domRowOffsets);
     },

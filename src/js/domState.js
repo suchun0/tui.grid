@@ -41,7 +41,6 @@ var DomState = snippet.defineClass(/** @lends module:domState.prototype */{
      */
     _getMaxCellHeight: function($row) {
         var heights = $row.find('.' + classNameConst.CELL_CONTENT).map(function() {
-            // return this.scrollHeight;
             return this.getBoundingClientRect().height;
         }).get();
 
